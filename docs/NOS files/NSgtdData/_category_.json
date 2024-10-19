@@ -1,0 +1,8 @@
+{
+  "label": "NSgtdData",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Items, quests, skills, mobs"
+  }
+}

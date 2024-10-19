@@ -1,0 +1,254 @@
+---
+sidebar_position: 1
+title: Item.dat
+description: Items configuration
+---
+
+# Item.dat
+
+That file contains list of all items configurations.
+You can edit that file using any text file editor.
+
+## Example
+
+```txt title="Item.dat"
+	VNUM	1	70
+	NAME	zts3e
+	INDEX	0	0	0	0	1	0
+	TYPE	0	1
+	FLAG	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	DATA	1	20	28	20	4	70	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	BUFF	-1	80	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	LINEDESC	1
+zts4e
+	END
+#========================================================
+```
+
+## Notes
+
+* Between each item configuration there is a `END` keyword and `#===...` separator.
+* That file never use spaces, **only tabs**.
+* If you will specify wrong zts value (translation) it will display that zts value
+  (for example `zts3e`) in game.
+
+## Format
+```txt title="Item.dat"
+	VNUM	{ItemVnum}	{ItemPrice}
+	NAME	{Name}
+	INDEX	{InventoryType}	{ItemType}	{ItemSubType}	{EquipmentSlot}	{IconId}	{VisualChangeId}
+	TYPE	{AttackType}	{RequiredClass}
+	FLAG	{Flag1}	{Flag2}	{Useless}	{NoSelling}	{NoDropping}	{NoTrading}	{UseableMinilandItem}	{UseableMinilandItem2}	{ShowWarningOnUse}	{IsTimespaceRewardBox}	{ShowDescriptionOwner}	{Unknown}	{FollowMouseOnUse}	{ShowSomethingOnHover}	{CanBeColored}	{FemaleCanWear}	{MaleCanWear}	{Notused}	{CanBeColored}	{PlaySoundOnPickup}	{UseReputationAsPrice}	{IsHeroLvlEq}	{Notused2}	{IsLimited}
+	DATA	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20
+	BUFF	{*BCard*}	{*BCard*}	{*BCard*}	{*BCard*}	{*BCard*}
+	LINEDESC	1
+{Desc}
+	END
+#========================================================
+```
+
+### `NAME` and `LINEDESC`
+
+* `{Name}` and `{Desc}` contains the key for translation.
+  For example `zts3e` is a key for translation.
+* Translations can be found in `_code_<lang>_<filetype>.txt` files (for example `_code_en_Item.txt`).
+* If you will specify wrong zts value (translation) it will display that zts value
+  (for example `zts3e`) in game.
+
+### `INDEX`
+
+<table>
+  <tr>
+    <th>Value</th><th>Description</th>
+  </tr>
+  <tr>
+    <td>InventoryType</td>
+    <td>
+      <ul>
+        <li>Equipment = 0</li>
+        <li>Main = 1</li>
+        <li>Etc = 2</li>
+        <li>Miniland = 3</li>
+        <li>Equipment = 4</li>
+        <li>Equipment = 8</li>
+        <li>Main = 9</li>
+        <li>ETC = 10</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>ItemType</td>
+    <td>
+      <ul>
+        <li>Weapon = 0</li>
+        <li>Armor = 1</li>
+        <li>Fashion = 2</li>
+        <li>Jewelery = 3</li>
+        <li>Specialist = 4</li>
+        <li>Box = 5</li>
+        <li>Shell = 6</li>
+        <li>Main = 10</li>
+        <li>Upgrade = 11</li>
+        <li>Production = 12</li>
+        <li>Map = 13</li>
+        <li>Special = 14</li>
+        <li>Potion = 15</li>
+        <li>Event = 16</li>
+        <li>Title = 17</li>
+        <li>Quest1 = 18</li>
+        <li>Sell = 20</li>
+        <li>Food = 21</li>
+        <li>Snack = 22</li>
+        <li>Magical = 24</li>
+        <li>Material = 25</li>
+        <li>Teacher = 26</li>
+        <li>Ammo = 27</li>
+        <li>Quest2 = 28</li>
+        <li>House = 30</li>
+        <li>Garden = 31</li>
+        <li>Minigame = 32</li>
+        <li>Terrace = 33</li>
+        <li>MinilandTheme = 34</li>
+      </ul>
+      <a href="https://github.com/OpenNos/OpenNos/blob/master/OpenNos.Domain/ItemType.cs">OpenNos.Domain/ItemType.cs</a>
+    </td>
+  </tr>
+  <tr>
+    <td>ItemSubType</td>
+    <td>
+      ItemSubType is a subtype of ItemType. Its meaning depends on the ItemType.
+      ```txt title="If ItemType is Weapon (0)"
+        AdventurerSword = 0,
+        SwordsmanSword = 1,
+        Daggers = 3,
+        Fists = 4,
+        Singleshot = 5,
+        Bow = 6,
+        MagicSpellGun = 8,
+        Wands = 9,
+        Tokens = 11,
+        PartnerWeapons = 12
+      ```
+      ```txt title="If ItemType is Armor (1)"
+        AdventurerArmor = 0,
+        MageArmor = 1,
+        ArcherArmor = 2,
+        SwordmanArmor = 3,
+        PartnerArmor = 4,
+        MartialArtistArmor = 5,
+      ```
+      ```txt title="If ItemType is Fashion (2)"
+        Hats = 0,
+        Masks = 1,
+        Gloves = 2,
+        Boots = 3,
+        CostumeBottom = 4,
+        CostumeTop = 5,
+        CostumeWeapon = 6
+      ```
+      ```txt title="If ItemType is Specialist (4)"
+        EquippabbleByAdventurer = 0,
+        SpClassSpecific = 1,
+        PartnerSp = 4
+      ```
+      ```txt title="If ItemType is Box (5)"
+        PetBead = 0,
+        PartnerBead = 1,
+        SpecialistHolder = 2,
+        RaidBoxOrSealedJajamaruSpOrSealedSakuraBead = 3,
+        VehicleBead = 4,
+        FairyBead = 5,
+        PartnerSpHolder = 6
+      ```
+      ```txt title="If ItemType is Shell (6)"
+        Weapon = 0,
+        Armor = 1
+      ```
+
+      ```txt title="If InventoryType is Miniland (3)"
+        House = 0,
+        SmallHouse = 1,
+        Warehouse = 2
+      ```
+    </td>
+  </tr>
+  <tr>
+    <td>EquipmentSlot</td>
+    <td>
+      <ul>
+        <li>MainWeapon = 0</li>
+        <li>Armor = 1</li>
+        <li>Hat = 2</li>
+        <li>Gloves = 3</li>
+        <li>Boots = 4</li>
+        <li>SecondaryWeapon = 5</li>
+        <li>Necklace = 6</li>
+        <li>Ring = 7</li>
+        <li>Bracelet = 8</li>
+        <li>Mask = 9</li>
+        <li>Fairy = 10</li>
+        <li>Amulet = 11</li>
+        <li>Sp = 12</li>
+        <li>CostumeSuit = 13</li>
+        <li>CostumeHat = 14</li>
+        <li>WeaponSkin = 15</li>
+        <li>Wings = 16</li>
+        <li>MiniPet = 17</li>
+      </ul>  
+      <a href="https://github.com/OpenNos/OpenNos/blob/master/OpenNos.Domain/EquipmentType.cs">OpenNos.Domain/EquipmentType.cs</a>
+    </td>
+  </tr>
+  <tr>
+    <td>IconId</td>
+    <td>id of the icon file which is located in the `NSipData.NOS` file</td>
+  </tr>
+  <tr>
+    <td>VisualChangeId</td><td>VisualChangeId</td>
+  </tr>
+</table>
+
+
+### `FLAG`
+
+Each flag is a boolean value, 0 means false, 1 means true.
+
+| Flag | Description |
+|------|-------------|
+| Flag1 | |
+| Flag2 | |
+| Useless | |
+| NoSelling | |
+| NoDropping | |
+| NoTrading | |
+| UseableMinilandItem | The same as UseableMinilandItem2 but with weird trash |
+| UseableMinilandItem2 | Miniland structures (but not all) |
+| ShowWarningOnUse | Open window to confirm use |
+| IsTimespaceRewardBox | There is only one item (item-icon) from ts complete window |
+| ShowDescriptionOwner | |
+| Unknown | |
+| FollowMouseOnUse |  |
+| ShowSomethingOnHover | Costumes and clothes (showing custom clothes), wings, weapon skin, fairy |
+| CanBeColored | |
+| FemaleCanWear | |
+| MaleCanWear | |
+| Notused | |
+| PlaySoundOnPickup | |
+| UseReputationAsPrice | |
+| IsHeroLvlEq | |
+| Notused2 | |
+| IsLimited | |
+
+### `DATA`
+
+* Contains 20 values.
+* The meaning of each value depends on the context,
+  for example, the same value can mean something different for a sword or armor.
+
+### `BUFF`
+
+* Contains 5 BCards.
+* Each Bcard contains 5 values and this is the format:
+
+  ```txt title="*BCard*"
+  {BCardVNUM}	{EffectVal_1}	{EffectVal_2}	{BCardSub}	{Target}
+  ```
