@@ -1,0 +1,8 @@
+{
+  "label": "🔨 Tools",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Tools to help you mod the game."
+  }
+}
