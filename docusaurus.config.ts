@@ -42,6 +42,8 @@ const config: Config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             "https://github.com/nt-research/nt-research.github.io/tree/main/",
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
         },
         blog: false,
         // blog: {
