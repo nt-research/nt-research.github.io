@@ -38,7 +38,7 @@ zts4e
 	NAME	{Name}
 	INDEX	{InventoryType}	{ItemType}	{ItemSubType}	{EquipmentSlot}	{IconId}	{VisualChangeId}
 	TYPE	{AttackType}	{RequiredClass}
-	FLAG	{Flag1}	{Flag2}	{Useless}	{NoSelling}	{NoDropping}	{NoTrading}	{UseableMinilandItem}	{UseableMinilandItem2}	{ShowWarningOnUse}	{IsTimespaceRewardBox}	{ShowDescriptionOwner}	{Unknown}	{FollowMouseOnUse}	{ShowSomethingOnHover}	{CanBeColored}	{FemaleCanWear}	{MaleCanWear}	{Notused}	{CanBeColored}	{PlaySoundOnPickup}	{UseReputationAsPrice}	{IsHeroLvlEq}	{Notused2}	{IsLimited}
+	FLAG	{Flag1}	{Flag2}	{Flag3}	{NoSelling}	{NoDropping}	{NoTrading}	{UseableMinilandItem}	{UseableMinilandItem2}	{ShowWarningOnUse}	{IsTimespaceRewardBox}	{ShowDescriptionOwner}	{Flag4}	{FollowMouseOnUse}	{ShowSomethingOnHover}	{CanBeColored}	{FemaleCanWear}	{MaleCanWear}	{Notused}	{CanBeColored}	{PlaySoundOnPickup}	{UseReputationAsPrice}	{IsHeroLvlEq}	{Flag5}	{IsLimited}
 	DATA	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20
 	BUFF	{*BCard*}	{*BCard*}	{*BCard*}	{*BCard*}	{*BCard*}
 	LINEDESC	1
@@ -46,6 +46,15 @@ zts4e
 	END
 #========================================================
 ```
+
+:::warning
+
+Its important to remember that **values are separated by tabs, not spaces.**
+
+*Visual Studio Code* replaces tabs with spaces by default. 
+Thats why recommended is to use *Notepad++* or other text editor who will not replace tabs with spaces.
+
+:::
 
 ### `NAME` and `LINEDESC`
 
@@ -212,37 +221,39 @@ zts4e
 
 Each flag is a boolean value, 0 means false, 1 means true.
 
-| Flag | Description |
-|------|-------------|
-| Flag1 | |
-| Flag2 | |
-| Useless | |
-| NoSelling | |
-| NoDropping | |
-| NoTrading | |
-| UseableMinilandItem | The same as UseableMinilandItem2 but with weird trash |
-| UseableMinilandItem2 | Miniland structures (but not all) |
-| ShowWarningOnUse | Open window to confirm use |
-| IsTimespaceRewardBox | There is only one item (item-icon) from ts complete window |
-| ShowDescriptionOwner | |
-| Unknown | |
-| FollowMouseOnUse |  |
-| ShowSomethingOnHover | Costumes and clothes (showing custom clothes), wings, weapon skin, fairy |
-| CanBeColored | |
-| FemaleCanWear | |
-| MaleCanWear | |
-| Notused | |
-| PlaySoundOnPickup | |
-| UseReputationAsPrice | |
-| IsHeroLvlEq | |
-| Notused2 | |
-| IsLimited | |
+| Index | Flag | Description |
+|---|------|-------------|
+| 1 | Flag1 | All items have `0` there |
+| 2 | Flag2 | All items have `0` there |
+| 3 | Flag3 | `1` if *Sealed Jajamaru SP* or *Sealed Princess Sakura Bead* or *Hat-Shaped Stone* (propably useless) |
+| 4 | NoSelling | |
+| 5 | NoDropping | |
+| 6 | NoTrading | |
+| 7 | UseableMinilandItem | The same as UseableMinilandItem2 but with weird trash |
+| 8 | UseableMinilandItem2 | Miniland structures (but not all) |
+| 9 | ShowWarningOnUse | Open window to confirm use |
+| 10 | IsTimespaceRewardBox | There is only one item (Mysterious Box, VNum: 1098 ![](https://itempicker.atlagaming.eu/api/items/icon/1098)) |
+| 11 | ShowDescriptionOwner | |
+| 12 | Flag4 | The purpouse is unknown |
+| 13 | FollowMouseOnUse |  |
+| 14 | ShowSomethingOnHover | Costumes and clothes (showing custom clothes), wings, weapon skin, fairy |
+| 15 | CanBeColored | |
+| 16 | FemaleCanWear | |
+| 17 | MaleCanWear | |
+| 18 | Notused | All items have `0` there |
+| 19 | PlaySoundOnPickup | |
+| 20 | UseReputationAsPrice | |
+| 21 | IsHeroLvlEq | |
+| 22 | Flag5 | The purpouse is unknown |
+| 23 | IsLimited | |
 
 ### `DATA`
 
 * Contains 20 values.
 * The meaning of each value depends on the context,
   for example, the same value can mean something different for a sword or armor.
+
+More information can be found in Item.dat parsers in the server [source code](#sources).
 
 ### `BUFF`
 
@@ -252,3 +263,27 @@ Each flag is a boolean value, 0 means false, 1 means true.
   ```txt title="*BCard*"
   {BCardVNUM}	{EffectVal_1}	{EffectVal_2}	{BCardSub}	{Target}
   ```
+
+## Common issues
+
+### Game crashes
+
+Make sure format is correct.
+
+* Are you using tabs instead of spaces?
+* Is there a `END` keyword and `#===...` separator between each item configuration?
+* Are the values in the correct order? (VNUM, NAME, INDEX, TYPE, FLAG, DATA, BUFF, LINEDESC, END)
+* Are the values in correct range? (`FLAG` values are 0 or 1, maybe you are trying to use something unexpected)
+* Do you have correct amount of parameters in each line? (You have 20 values in `DATA` and 25 values in `BUFF` and 23 values in `FLAG`)
+
+### How to change item icon?
+
+`IconId` is located in `INDEX` row. You need to change it to the correct icon id. If icon does not exist it will default to question mark icon.
+
+New icons can be added to the `NSipData.NOS` file. The file name is the icon id.
+
+## Sources
+
+* [NosCore.Parser/Parsers/ItemParser.cs](https://github.com/NosCoreIO/NosCore/blob/master/src/NosCore.Parser/Parsers/ItemParser.cs)
+* [OpenNos.Import.Console/ImportFactory.cs](https://github.com/OpenNos/OpenNos/blob/master/OpenNos.Import.Console/ImportFactory.cs) (old source code)
+* [itempicker.atlagaming.eu](https://itempicker.atlagaming.eu/)
