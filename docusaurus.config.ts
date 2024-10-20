@@ -70,7 +70,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: "img/docusaurus-social-card.jpg",
+    // image: "img/docusaurus-social-card.jpg",
     navbar: {
       title: "NosTale Research Project",
       logo: {
@@ -100,8 +100,12 @@ const config: Config = {
           title: "Docs",
           items: [
             {
-              label: "Tutorial",
-              to: "/docs/intro",
+              label: "Tools",
+              to: "/docs/category/-tools",
+            },
+            {
+              label: "NOS files",
+              to: "/docs/category/nos-files",
             },
           ],
         },
@@ -117,7 +121,7 @@ const config: Config = {
               href: "https://nosapki.com/",
             },
             {
-              label: "NosTale",
+              label: "Play NosTale",
               href: "https://gameforge.com/en-GB/play/nostale",
             },
           ],
