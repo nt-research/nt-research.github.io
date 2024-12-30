@@ -120,11 +120,56 @@ self-explanatory
 
 #### Get race name ID
 
-`300 + raceType * 10 + raceSubType + 7` (Use in `conststring.dat`)
+$$
+\text{raceId} = 300 + \text{raceType} \times 10 + \text{raceSubType} + 7
+$$
+
+Use that id in `conststring.dat` to get race name (or check the list at the bottom)
+
+<details>
+  <summary>List of races</summary>
+
+    - 0/0 - low level plants
+    - 0/1 - low level animals
+    - 0/2 - low level monsters
+    - 1/0 - high level plants
+    - 1/1 - high level animals
+    - 1/2 - high level monsters
+    - 2/0 - kovolt
+    - 2/1 - bushtail
+    - 2/2 - catsy
+    - 3/0 - human
+    - 3/2 - neutral
+    - 3/3 - demon
+    - 4/0 - angel
+    - 5/0 - low level undead
+    - 5/1 - high level undead
+    - 6/0 - low level spirit (a5.1 mobs)
+    - 8/0 - fixed trap - these traps on raids that hit you from nowhere, etc.
+    - 8/1 - energy ball - sp3a bombs, mini-clones from hongbi&cheongbi
+    - 8/2 - cannon ball - rainbow battle crystals
+    - 8/3 - talkable npc - like TS sign, ML sign, SP stones
+    - 8/4 - generic, a lot of different ones here
+    - 8/5 - teleporters
+    - 8/6 - quest mob spawner
+    - 8/7 - collectibles (like ice flowers)
+    - 8/8 - a5 quest collectibles (or something, idk)
+
+</details>
 
 #### Get race icon ID
 
-`18000 + raceType * 50 + raceSubType` (Icons are located in the `NSipData.NOS` file)
+$$
+\text{raceIconId} = 18000 + \text{raceType} \times 50 + \text{raceSubType}
+$$
+
+Icons are located in the `NSipData.NOS` file
+
+:::warning
+
+Monsters with `raceType` == `8` **MUST NEVER BE ABLE TO USE BASIC ATTACKS** (they can use skills if they have any), and **MUSTNOT BE TARGETABLE BY AoE's**.
+
+:::
 
 ### ATTRIB
 
@@ -150,11 +195,93 @@ self-explanatory
 	PREATT	{hostility}	{groupAttack}	{seekRange}	{movementSpeed}	{respTime}
 ```
 
+#### `hostility`
+
+- 1 - Attacks when it sees you
+- 4 - Attacks pets (nosmate trainers)
+- 23 - Attacks devils (guardians in a4)
+- 24 - Attacks angels (guardians in a4)
+- 100 - Attacks if you are not wearing Phantom's Amulet ![](https://itempicker.atlagaming.eu/api/items/icon/332)
+- If > 20000: atttacks while doing quest with VNUM (hostility-20000) (hostility 25278 would be quest 5278)
+
+#### `groupAttack`
+
+- If 1: with others (when a mob attacks you, his allies will also attack you if you're in their seek range (kovolts))
+- If 5: with group (if you attack this mobs, his allies will also attack you if you're in their seek range (wolves, pigeons))
+
+#### `seekRange`
+
+#### `movementSpeed`
+
+#### `respTime`
+
+Is in deciseconds (so value 100 would be 10 seconds)
+
 ### SETTING
 
 ```txt
 	SETTING	{iconID}	{spawnMobOrColor}	{amountOrItem}	{spriteSize}	{cellSize}	{unknown0, always 0}
 ```
+
+#### iconID
+
+Is avatar inside `NSipData.NOS` (example: <img src="https://itempicker.atlagaming.eu/api/monsters/icon/1" height="30"></img>)
+
+#### spawnMobOrColor / amountOrItem
+
+<table>
+  <tr>
+    <th>Mode</th>
+    <th>Colors</th>
+    <th>More monsters</th>
+  </tr>
+  <tr>
+    <th>`hostility` value</th>
+    <td>0 - 19999</td>
+    <td>20000 - ...</td>
+  </tr>
+  <tr>
+    <th>Behaviour</th>
+    <td>
+      * This mob can have a custom color (if `spawnMobOrColor` is not 0)
+      * It's an int representation of the RGBA color (value -12477399 in hex is 0xff419c29, and so the RGBA is #ff419c29 (0xff red, 0x41 green, 0x9c blue, 0x29 alpha))
+      * You can use our [Color calculator](/color-calculator) to get color int value
+    </td>
+    <td>
+      This mob spawns `amountOrItem`x [MOB:`spawnMobOrColor`]
+    </td>
+  </tr>
+  <tr>
+    <th>Examples</th>
+    <td>
+      * Invisible Jelly ![Invisible Jelly](https://itempicker.atlagaming.eu/api/monsters/icon/168)
+      * Invisible Dust King ![Invisible Dust King](https://itempicker.atlagaming.eu/api/monsters/icon/294)
+      * Angry Chicken ![Angry Chicken](https://itempicker.atlagaming.eu/api/monsters/icon/340)
+    </td>
+    <td>
+     * Laboratory Observer (Vnum: 857) ![Laboratory Observer](https://itempicker.atlagaming.eu/api/monsters/icon/857) spawns 3 Mobs: Gaunt Zombie Guard (Vnum: 299) ![Gaunt Zombie Guard](https://itempicker.atlagaming.eu/api/monsters/icon/299)
+    
+     Most monsters in this category give the impression that they are used to configure various elements of the game. In fact, they are never visible to the player, dont have sprites and dont have icon.
+    </td>
+  </tr>
+</table>
+
+#### spriteSize
+
+Bonus (positive or negative) sprite size percentage (value `-10` would result in 90% sprite size)
+
+Examples:
+* Score Board (Vnum: 915) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/915" height="30"></img> +10%
+* Twisted Ice Worm (Vnum: 764) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/764" height="30"></img> +90%
+* Valakus' Egg (Vnum: 2016) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/2016" height="30"></img> -50%
+
+#### cellSize
+
+bonus cell size for AoE spells (used for big bosses like Hatus or Caligor)
+
+Examples:
+* Wounded Asgobas (Vnum: 1462) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/1462" height="30"></img> cellSize=4
+* Lord Hatus (Vnum: 577) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/577" height="30"></img> cellSize=5
 
 ### ETC
 
@@ -221,6 +348,12 @@ self-explanatory
 ```txt
 	BASIC	{BCardVNUM}	{EffectVal_1}	{EffectVal_2}	{BCardSub}	{Target}	[9 times the same thing]
 ```
+
+:::warning
+
+Monsters with `raceType` == `8` **MUST NEVER BE ABLE TO USE BASIC ATTACKS** (they can use skills if they have any), and **MUSTNOT BE TARGETABLE BY AoE's**.
+
+:::
 
 ### CARD
 
