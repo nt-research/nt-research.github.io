@@ -27,12 +27,13 @@ zts4e
 
 ## Notes
 
-* Between each item configuration there is a `END` keyword and `#===...` separator.
-* That file never use spaces, **only tabs**.
-* If you will specify wrong zts value (translation) it will display that zts value
+- Between each item configuration there is a `END` keyword and `#===...` separator.
+- That file never use spaces, **only tabs**.
+- If you will specify wrong zts value (translation) it will display that zts value
   (for example `zts3e`) in game.
 
 ## Format
+
 ```txt title="Item.dat"
 	VNUM	{ItemVnum}	{ItemPrice}
 	NAME	{Name}
@@ -51,17 +52,17 @@ zts4e
 
 Its important to remember that **values are separated by tabs, not spaces.**
 
-*Visual Studio Code* replaces tabs with spaces by default. 
-Thats why recommended is to use *Notepad++* or other text editor who will not replace tabs with spaces.
+_Visual Studio Code_ replaces tabs with spaces by default.
+Thats why recommended is to use _Notepad++_ or other text editor who will not replace tabs with spaces.
 
 :::
 
 ### `NAME` and `LINEDESC`
 
-* `{Name}` and `{Desc}` contains the key for translation.
+- `{Name}` and `{Desc}` contains the key for translation.
   For example `zts3e` is a key for translation.
-* Translations can be found in `_code_<lang>_<filetype>.txt` files (for example `_code_en_Item.txt`).
-* If you will specify wrong zts value (translation) it will display that zts value
+- Translations can be found in `_code_<lang>_<filetype>.txt` files (for example `_code_en_Item.txt`).
+- If you will specify wrong zts value (translation) it will display that zts value
   (for example `zts3e`) in game.
 
 ### `INDEX`
@@ -219,49 +220,48 @@ Thats why recommended is to use *Notepad++* or other text editor who will not re
   </tr>
 </table>
 
-
 ### `FLAG`
 
 Each flag is a boolean value, 0 means false, 1 means true.
 
-| Index | Flag | Description |
-|---|------|-------------|
-| 1 | Flag1 | All items have `0` there |
-| 2 | Flag2 | All items have `0` there |
-| 3 | Flag3 | `1` if *Sealed Jajamaru SP* or *Sealed Princess Sakura Bead* or *Hat-Shaped Stone* (propably useless) |
-| 4 | NoSelling | |
-| 5 | NoDropping | |
-| 6 | NoTrading | |
-| 7 | UseableMinilandItem | The same as UseableMinilandItem2 but with weird trash |
-| 8 | UseableMinilandItem2 | Miniland structures (but not all) |
-| 9 | ShowWarningOnUse | Open window to confirm use |
-| 10 | IsTimespaceRewardBox | There is only one item (Mysterious Box, VNum: 1098 ![](https://itempicker.atlagaming.eu/api/items/icon/1098)) |
-| 11 | ShowDescriptionOwner | |
-| 12 | Flag4 | The purpouse is unknown |
-| 13 | FollowMouseOnUse |  |
-| 14 | ShowSomethingOnHover | Costumes and clothes (showing custom clothes), wings, weapon skin, fairy |
-| 15 | CanBeColored | |
-| 16 | FemaleCanWear | |
-| 17 | MaleCanWear | |
-| 18 | Notused | All items have `0` there |
-| 19 | PlaySoundOnPickup | |
-| 20 | UseReputationAsPrice | |
-| 21 | IsHeroLvlEq | |
-| 22 | Flag5 | The purpouse is unknown |
-| 23 | IsLimited | |
+| Index | Flag                 | Description                                                                                                   |
+| ----- | -------------------- | ------------------------------------------------------------------------------------------------------------- |
+| 1     | Flag1                | All items have `0` there                                                                                      |
+| 2     | Flag2                | All items have `0` there                                                                                      |
+| 3     | Flag3                | `1` if _Sealed Jajamaru SP_ or _Sealed Princess Sakura Bead_ or _Hat-Shaped Stone_ (propably useless)         |
+| 4     | NoSelling            |                                                                                                               |
+| 5     | NoDropping           |                                                                                                               |
+| 6     | NoTrading            |                                                                                                               |
+| 7     | UseableMinilandItem  | The same as UseableMinilandItem2 but with weird trash                                                         |
+| 8     | UseableMinilandItem2 | Miniland structures (but not all)                                                                             |
+| 9     | ShowWarningOnUse     | Open window to confirm use                                                                                    |
+| 10    | IsTimespaceRewardBox | There is only one item (Mysterious Box, VNum: 1098 ![](https://itempicker.atlagaming.eu/api/items/icon/1098)) |
+| 11    | ShowDescriptionOwner |                                                                                                               |
+| 12    | Flag4                | The purpouse is unknown                                                                                       |
+| 13    | FollowMouseOnUse     |                                                                                                               |
+| 14    | ShowSomethingOnHover | Costumes and clothes (showing custom clothes), wings, weapon skin, fairy                                      |
+| 15    | CanBeColored         |                                                                                                               |
+| 16    | FemaleCanWear        |                                                                                                               |
+| 17    | MaleCanWear          |                                                                                                               |
+| 18    | Notused              | All items have `0` there                                                                                      |
+| 19    | PlaySoundOnPickup    |                                                                                                               |
+| 20    | UseReputationAsPrice |                                                                                                               |
+| 21    | IsHeroLvlEq          |                                                                                                               |
+| 22    | Flag5                | The purpouse is unknown                                                                                       |
+| 23    | IsLimited            |                                                                                                               |
 
 ### `DATA`
 
-* Contains 20 values.
-* The meaning of each value depends on the context,
+- Contains 20 values.
+- The meaning of each value depends on the context,
   for example, the same value can mean something different for a sword or armor.
 
 More information can be found in Item.dat parsers in the server [source code](#sources).
 
 ### `BUFF`
 
-* Contains 5 BCards.
-* Each Bcard contains 5 values and this is the format:
+- Contains 5 BCards.
+- Each Bcard contains 5 values and this is the format:
   ```txt title="*BCard*"
     {BCardVNUM}	{EffectVal_1}	{EffectVal_2}	{BCardSub}	{Target}
   ```
@@ -272,11 +272,11 @@ More information can be found in Item.dat parsers in the server [source code](#s
 
 Make sure format is correct.
 
-* Are you using tabs instead of spaces?
-* Is there a `END` keyword and `#===...` separator between each item configuration?
-* Are the values in the correct order? (VNUM, NAME, INDEX, TYPE, FLAG, DATA, BUFF, LINEDESC, END)
-* Are the values in correct range? (`FLAG` values are 0 or 1, maybe you are trying to use something unexpected)
-* Do you have correct amount of parameters in each line? (You have 20 values in `DATA` and 25 values in `BUFF` and 23 values in `FLAG`)
+- Are you using tabs instead of spaces?
+- Is there a `END` keyword and `#===...` separator between each item configuration?
+- Are the values in the correct order? (VNUM, NAME, INDEX, TYPE, FLAG, DATA, BUFF, LINEDESC, END)
+- Are the values in correct range? (`FLAG` values are 0 or 1, maybe you are trying to use something unexpected)
+- Do you have correct amount of parameters in each line? (You have 20 values in `DATA` and 25 values in `BUFF` and 23 values in `FLAG`)
 
 ### How to change item icon?
 
@@ -286,6 +286,6 @@ New icons can be added to the `NSipData.NOS` file. The file name is the icon id.
 
 ## Sources
 
-* [NosCore.Parser/Parsers/ItemParser.cs](https://github.com/NosCoreIO/NosCore/blob/master/src/NosCore.Parser/Parsers/ItemParser.cs)
-* [OpenNos.Import.Console/ImportFactory.cs](https://github.com/OpenNos/OpenNos/blob/master/OpenNos.Import.Console/ImportFactory.cs) (old source code)
-* [itempicker.atlagaming.eu](https://itempicker.atlagaming.eu/)
+- [NosCore.Parser/Parsers/ItemParser.cs](https://github.com/NosCoreIO/NosCore/blob/master/src/NosCore.Parser/Parsers/ItemParser.cs)
+- [OpenNos.Import.Console/ImportFactory.cs](https://github.com/OpenNos/OpenNos/blob/master/OpenNos.Import.Console/ImportFactory.cs) (old source code)
+- [itempicker.atlagaming.eu](https://itempicker.atlagaming.eu/)
