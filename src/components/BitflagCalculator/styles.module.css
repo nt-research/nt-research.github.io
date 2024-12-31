@@ -1,0 +1,17 @@
+
+.optionsContainer {
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+
+    /* Increment this value */
+    --items-count: 32;
+    grid-template-rows: repeat(calc(var(--items-count) / 2), 1fr);
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(var(--items-count), 1fr);
+    } 
+}

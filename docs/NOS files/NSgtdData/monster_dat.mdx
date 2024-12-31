@@ -277,7 +277,7 @@ Examples:
 
 #### cellSize
 
-bonus cell size for AoE spells (used for big bosses like Hatus or Caligor)
+Bonus cell size for AoE spells (used for big bosses like Hatus or Caligor)
 
 Examples:
 * Wounded Asgobas (Vnum: 1462) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/1462" height="30"></img> cellSize=4
@@ -288,6 +288,74 @@ Examples:
 ```txt
 	ETC	{bitFlags}	{unknown1}	{isPercentileDmg}	{canOnlyBeDmgedByJajamaruLastSkill}	{unknown2, always 0}	{visibleOnMinimapAsGreenDot}	{unknown3}	{isValhallaPartner}
 ```
+
+#### bitFlags
+
+Flags are stored as an integer and calculated using bitwise operations. If you want to dive deeper into what's happening behind the curtains, check the [Wikipedia](https://en.wikipedia.org/wiki/Bit_field) and [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators) articles on the topic.
+
+<details>
+  <summary>Table with bitFlags documentation</summary>
+    
+    | option | bitFlags | comment |
+    |--|--|--|
+    | cantWalk | bitFlags & 1 | this mob can't walk |
+    | canCollect | bitFlags & 2 | this mob can be collected (ice flowers etc.) but only if it has any Drops, and is placed as NPC, not a mob |
+    | cantDebuff | bitFlags & 4 | this mob can't be debuffed |
+    | canCatch | bitFlags & 8 | this mob can be caught |
+    | disappearAfterSeconds | bitFlags & 16 | this mob will disappear after realHP/10 seconds |
+    | disappearAfterHitting | bitFlags & 32 | this mob will disappear after its first hit (mini-inferno) |
+    | hasMode | bitFlags & 64 | this mob has MODE |
+    | disappearAfterSecondsMana | bitFlags & 128 | this mob will disappear after realMP/10 seconds |
+    | onDefenseOnlyOnce | bitFlags & 256 | this mob's "during defense" CARD will trigger only once |
+    | hasDash | bitFlags & 512 | this mob uses a dash |
+    | canRegenMp | bitFlags & 1024 | (this mob will regenerate HP over time) |
+    | cantVoke | bitFlags & 2048 | this mob can't be moved by vokes, repels etc. |
+    | | bitFlags & 4096 | always 0? |
+    | | bitFlags & 8192 | always 0? |
+    | | bitFlags & 16384 | always 0? |
+    | | bitFlags & 32768 | always 0? |
+    | | bitFlags & 65536 | always 0? |
+    | | bitFlags & 131072 | always 0? |
+    | | bitFlags & 262144 | always 0? |
+    | | bitFlags & 524288 | always 0? |
+    | | bitFlags & 1048576 | always 0? |
+    | | bitFlags & 2097152 | always 0? |
+    | | bitFlags & 4194304 | always 0? |
+    | | bitFlags & 8388608 | always 0? |
+    | | bitFlags & 16777216 | always 0? |
+    | | bitFlags & 33554432 | always 0? |
+    | | bitFlags & 67108864 | always 0? |
+    | | bitFlags & 134217728 | always 0? |
+    | dontDrainHpAfterSeconds | bitFlags & 268435456 | this mob won't lose HP but will stil disappear after realHP/10 seconds (?) |
+    | | bitFlags & 536870912 | unknown, almost boss-ish |
+    | | bitFlags & 1073741824 | unknown, boss-ish |
+    | cantTargetInfo | bitFlags & 2147483648 | you can't see this mob's target info (selection window in top of the screen, with HP and MP) |
+</details>
+
+<BitflagCalculator />
+
+#### isPercentileDmg
+If `1`, this mob takes percentage damage, like Chicken King, Giant Snowman, winter sealed vessel mobs etc.
+
+#### canOnlyBeDmgedByJajamaruLastSkill
+Used for Namaju, if `1`, this mob then can only be damaged by jajamaru's last skill
+
+#### visibleOnMinimapAsGreenDot
+
+![](./assets/visibleOnMinimapAsGreenDot_map.png)
+
+Example:
+- Giant Chick (Vnum: 588) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/588" height="30px"/>
+- Thousand-Year-Old Mandra (Vnum: 589)
+
+#### isValhallaPartner
+
+Example:
+
+* Par (Vnum: 1491) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/1491" height="30px"/>
+* Frigg (Vnum: 2617) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/2617" height="30px"/>
+* Jennifer (Vnum: 2640) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/2640" height="30px"/>
+
 
 ### PETINFO
 
