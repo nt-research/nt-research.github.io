@@ -202,12 +202,12 @@ Monsters with `raceType` == `8` **MUST NEVER BE ABLE TO USE BASIC ATTACKS** (the
 
 #### `hostility`
 
-- 1 - Attacks when it sees you
-- 4 - Attacks pets (nosmate trainers)
-- 23 - Attacks devils (guardians in a4)
-- 24 - Attacks angels (guardians in a4)
-- 100 - Attacks if you are not wearing Phantom's Amulet ![](https://itempicker.atlagaming.eu/api/items/icon/332)
-- If > 20000: atttacks while doing quest with VNUM (hostility-20000) (hostility 25278 would be quest 5278)
+- `1`: Attacks when it sees you
+- `4`: Attacks pets (nosmate trainers)
+- `23`: Attacks devils (guardians in a4)
+- `24`: Attacks angels (guardians in a4)
+- `100`: Attacks if you are not wearing Phantom's Amulet <NtItemIcon vnum={332} label="Phantom's Amulet" height={30} />
+- `>20000`: Atttacks while doing quest with VNUM (hostility-20000) (hostility 25278 would be quest 5278)
 
 #### `groupAttack`
 
@@ -231,9 +231,22 @@ Is in deciseconds (so value 100 would be 10 seconds)
 #### iconID
 
 Contains monster icon id.
-Icon can be found in `NSipData.NOS` (example: <img src="https://itempicker.atlagaming.eu/api/monsters/icon/1" height="30"></img>)
+Icon can be found in `NSipData.NOS` using this formula:
+$$
+\text{iconFilename} = 8000 + \text{iconID}
+$$
+
+:::secondary Example
+<NtMonsterPreview vnum={81} label="Pink Jelly" height={30} /> Pink Jelly (Vnum: 82) have iconID = `81`.
+```
+8000 + 81 = 8081
+```
+Icon <NtMonsterIcon vnum={81} label="Pink Jelly" height={30} /> can be found in `NSipData.NOS` as file named `8081`
+:::
 
 #### spawnMobOrColor / amountOrItem
+
+Meaning depends on the hostility value. Check the table below.
 
 <table>
   <tr>
@@ -278,18 +291,20 @@ Icon can be found in `NSipData.NOS` (example: <img src="https://itempicker.atlag
 
 Bonus (positive or negative) sprite size percentage (value `-10` would result in 90% sprite size)
 
-Examples:
-* Score Board (Vnum: 915) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/915" height="30"></img> +10%
-* Twisted Ice Worm (Vnum: 764) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/764" height="30"></img> +90%
-* Valakus' Egg (Vnum: 2016) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/2016" height="30"></img> -50%
+:::secondary Examples
+* Score Board (Vnum: 915) <NtMonsterPreview vnum={915} label="Score Board" height={30} /> have `10` which means +10% for the size
+* Twisted Ice Worm (Vnum: 764) <NtMonsterPreview vnum={764} label="Twisted Ice Worm" height={30} /> `90` -> +90%
+* Valakus' Egg (Vnum: 2016) <NtMonsterPreview vnum={2016} label="Valakus' Egg" height={30} /> `-50` -> -50%
+:::
 
 #### cellSize
 
 Bonus cell size for AoE spells (used for big bosses like Hatus or Caligor)
 
-Examples:
-* Wounded Asgobas (Vnum: 1462) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/1462" height="30"></img> cellSize=4
-* Lord Hatus (Vnum: 577) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/577" height="30"></img> cellSize=5
+:::secondary Examples
+* Wounded Asgobas (Vnum: 1462) <NtMonsterPreview vnum={1462} label="Wounded Asgobas" height={30} /> cellSize=`4`
+* Lord Hatus (Vnum: 577) <NtMonsterPreview vnum={577} label="Lord Hatus" height={30} /> cellSize=`5`
+:::
 
 ### ETC
 
@@ -425,11 +440,76 @@ These factors are like "bonuses". If a pet has 15 melee/HP factor value, it will
 	ZSKILL	{attType}	{range}	{hitChance}	{castTime}	{cooldown}	{dashSpeed}	{unknown4}
 ```
 
+Contains information about basic attack and some informations
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>`attType`</th>
+      <td>
+       * `0` - melee
+       * `1` - ranged
+       * `2` - magic 
+      </td>
+    </tr>
+    <tr>
+      <th>`range`</th>
+      <td></td>
+    </tr>
+    <tr>
+      <th>`hitChance`</th>
+      <td>
+       Every time a mob tries to attack you, it checks this value (you multiply the value by 20 to get the percentage, so `2` would be 40% and `5` would be 100%) and rolls with its chance if it should attack. 
+       
+       Basically there is (`hitChance` * 20)% chance for the mob to attack you.
+      </td>
+    </tr>
+    <tr>
+      <th>`castTime`</th>
+      <td>deciseconds (so value 100 would be 10 seconds)</td>
+    </tr>
+    <tr>
+      <th>`cooldown`</th>
+      <td>deciseconds (so value 100 would be 10 seconds)</td>
+    </tr>
+    <tr>
+      <th>`dashSpeed`</th>
+      <td>tells how fast a dash visuals should be</td>
+    </tr>
+    <tr>
+      <th>`unknown4`</th>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
 ### WINFO
 
 ```txt
 	WINFO	{attType}	{unknown5}	{grade}
 ```
+
+Mob's weapon (attack)
+
+| Field | Description |
+| --- | --- |
+| `attType` |  `0` - melee, `1` - ranged, `2` - magic (same as in [ZSKILL](#zskill))  |
+| `unknown5` | |
+| `grade` | upgrade |
+
+:::secondary Example
+```txt
+	WINFO	2	0	10
+```
+would be: ranged +10
+:::
+
 
 ### WEAPON
 
@@ -437,11 +517,17 @@ These factors are like "bonuses". If a pet has 15 melee/HP factor value, it will
 	WEAPON	{lvl}	{range}	{dmgMin}	{dmgMax}	{hitRate}	{critChance}	{critDmg}
 ```
 
+Mob's weapon. It adds these stats to the mob like it was wearing a weapon with these values.
+
+**Except `range`** that defines basic attack's range.
+
 ### AINFO
 
 ```txt
 	AINFO	{defType}	{grade}
 ```
+
+Mob's armor. It adds these stats to the mob like it was wearing a armor with these values. (Simillar to [WINFO](./#winfo))
 
 ### ARMOR
 
@@ -449,11 +535,21 @@ These factors are like "bonuses". If a pet has 15 melee/HP factor value, it will
 	ARMOR	{lvl}	{meleeDef}	{rangedDef}	{magicDef}	{dodge}
 ```
 
+Mob's armor. It adds these stats to the mob like it was wearing a armor with these values. (Simillar to [WEAPON](./#weapon))
+
 ### SKILL
 
 ```txt
 	SKILL	{vnum}	{chance}	{force}	[4 times the same thing]
 ```
+
+List of skills that a mob can use
+
+| Field | Description |
+| --- | --- |
+| `vnum` |  skill's vnum  |
+| `chance` | chance to use this skill instead of basic attack |
+| `force` | if `1` or `2` (1 is only used for Mother Cuby and 1000yo Ginseng, no idea what's the difference), this skill will be used instead of basic attack when not on cooldown. So a mob with one skill with this enabled will use it whenever it comes off cooldown. Used a lot for raid bosses |
 
 ### PARTNER
 
@@ -461,11 +557,15 @@ These factors are like "bonuses". If a pet has 15 melee/HP factor value, it will
 	PARTNER	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 ```
 
+No idea. All monsters have there 0. Maybe it's a leftover from an old version of the game.
+
 ### BASIC
 
 ```txt
 	BASIC	{BCardVNUM}	{EffectVal_1}	{EffectVal_2}	{BCardSub}	{Target}	[9 times the same thing]
 ```
+
+See definition in [Item.dat BUFF](./Item_dat#buff)
 
 :::warning
 
@@ -478,6 +578,20 @@ Monsters with `raceType` == `8` **MUST NEVER BE ABLE TO USE BASIC ATTACKS** (the
 ```txt
 	CARD	{BCardVNUM}	{EffectVal_1}	{EffectVal_2}	{BCardSub}	{Target}	[3 times the same thing]
 ```
+
+`CARD` is simillar to `BASIC`. Also contains BCard's (read more: [Item.dat BUFF](./Item_dat#buff)) but this BCard only triggers depending on position (in `CARD`) it is located:
+1. After 1st attack (ibrahim's defense, grenigas' rage, not used anywhere else)
+2. After dying (peas, mandras, etc.)
+3. unknown, not visible anywhere
+4. unknown, not visible anywhere
+
+:::secondary Example
+Mandra (Vnum: 19) have this `CARD`:
+```
+	CARD	0	0	0	0	0	27	120	0	0	1	0	0	0	0	0	0	0	0	0	0
+```
+which means: After die use BCard `27	120	0	0	1` (because its 2nd BCard in `CARD`)
+:::
 
 ### MODE
 
