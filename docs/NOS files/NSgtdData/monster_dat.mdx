@@ -237,14 +237,14 @@ Icon can be found in `NSipData.NOS` (example: <img src="https://itempicker.atlag
 
 <table>
   <tr>
-    <th>Mode</th>
-    <th>Colors</th>
-    <th>More monsters</th>
+    <th>Condition</th>
+    <th>`hostility` value is 0 - 19999</th>
+    <th>`hostility` value is 20000 - ...</th>
   </tr>
   <tr>
-    <th>`hostility` value</th>
-    <td>0 - 19999</td>
-    <td>20000 - ...</td>
+    <th>Friendly option name</th>
+    <th>Colors</th>
+    <th>Spawn monsters</th>
   </tr>
   <tr>
     <th>Behaviour</th>
@@ -254,7 +254,11 @@ Icon can be found in `NSipData.NOS` (example: <img src="https://itempicker.atlag
       * You can use our [Color calculator](/color-calculator) to get color int value
     </td>
     <td>
-      This mob spawns `amountOrItem`x [MOB:`spawnMobOrColor`]
+      * This mob spawns `amountOrItem` amount of mob (vnum: `spawnMobOrColor`)
+    
+      :::tip
+      Most monsters in this category give the impression that they are used to configure various elements of the game. In fact, they are never visible to the player. They dont have sprites and dont have icon.
+      :::
     </td>
   </tr>
   <tr>
@@ -266,8 +270,6 @@ Icon can be found in `NSipData.NOS` (example: <img src="https://itempicker.atlag
     </td>
     <td>
      * Laboratory Observer (Vnum: 857) ![Laboratory Observer](https://itempicker.atlagaming.eu/api/monsters/icon/857) spawns 3 Mobs: Gaunt Zombie Guard (Vnum: 299) ![Gaunt Zombie Guard](https://itempicker.atlagaming.eu/api/monsters/icon/299)
-    
-     Most monsters in this category give the impression that they are used to configure various elements of the game. In fact, they are never visible to the player, dont have sprites and dont have icon.
     </td>
   </tr>
 </table>
