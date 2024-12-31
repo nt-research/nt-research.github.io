@@ -58,7 +58,7 @@ This file format is simillar to [Item.dat](./Item_dat) (both files can be edit u
 	PREATT	{hostility}	{groupAttack}	{seekRange}	{movementSpeed}	{respTime}
 	SETTING	{iconID}	{spawnMobOrColor}	{amountOrItem}	{spriteSize}	{cellSize}	{unknown0, always 0}
 	ETC	{bitFlags}	{unknown1}	{isPercentileDmg}	{canOnlyBeDmgedByJajamaruLastSkill}	{unknown2, always 0}	{visibleOnMinimapAsGreenDot}	{unknown3}	{isValhallaPartner}
-	PETINFO	{val1}	{val2}  {val3}	{val4}  {val5}
+	PETINFO	{val1}	{val2}	{val3}	{val4}	{val5}
 	EFF	{effIdOnAttack}	{effIdConstantly}	{effIdOnDeath}
 	ZSKILL	{attType}	{range}	{hitChance}	{castTime}	{cooldown}	{dashSpeed}	{unknown4}
 	WINFO	{attType}	{unknown5}	{grade}
@@ -335,9 +335,11 @@ Flags are stored as an integer and calculated using bitwise operations. If you w
 <BitflagCalculator />
 
 #### isPercentileDmg
+
 If `1`, this mob takes percentage damage, like Chicken King, Giant Snowman, winter sealed vessel mobs etc.
 
 #### canOnlyBeDmgedByJajamaruLastSkill
+
 Used for Namaju, if `1`, this mob then can only be damaged by jajamaru's last skill
 
 #### visibleOnMinimapAsGreenDot
@@ -356,12 +358,52 @@ Example:
 * Frigg (Vnum: 2617) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/2617" height="30px"/>
 * Jennifer (Vnum: 2640) <img src="https://itempicker.atlagaming.eu/api/monsters/preview/2640" height="30px"/>
 
-
 ### PETINFO
 
 ```txt
-	PETINFO	{val1}	{val2}  {val3}	{val4}  {val5}
+	PETINFO	{val1}	{val2}	{val3}	{val4}	{val5}
 ```
+
+#### If: `raceType` == 8 && `raceSubType` == 7: (collectable NPC)
+|  val   | Name  | Description |
+| ------ | ----- | ----------- |
+| `val1` | tries | max tries before cooldown |
+| `val2` | timerTime | collection cooldown (in seconds) |
+| `val3` | needItem | if not 0, this npc require an item with VNUM `amountOrItem` to be collected |
+| `val4` | collectTime | collection duration (dance duration) |
+| `val5` | | |
+|        | Example mobs | <NtMonsterPreview vnum={858} label="Fragrant Grass" height={30} /> <NtMonsterPreview vnum={942} label="Well" height={30} /> <NtMonsterPreview vnum={2004} label="Ice Flower" height={30} /> <NtMonsterPreview vnum={2329} label="Cheese Chunk" height={30} /> |
+
+#### If: `raceType` == 8 && `raceSubType` == 5: (teleporters)
+|  val   | Name  | Description |
+| ------ | ----- | ----------- |
+| `val1` | itemVnum | required item VNUM to use this teleporter |
+| `val2` | amount | amount of the item required |
+| `val3` | remove | if true, the item will be removed after teleporting |
+| `val4` |        | not used |
+| `val5` | | |
+|        | Example mobs | <NtMonsterPreview vnum={856} label="Teleportation Stone" height={30} /> <NtMonsterPreview vnum={861} label="Tree Stump" height={30} /> <NtMonsterPreview vnum={863} label="Kovolt Statue" height={30} /> <NtMonsterPreview vnum={902} label="Magic Branch" height={30} /> |
+
+#### All diffrent cases:
+
+:::tip
+It can actually be used for the above cases too, if (for example) you somehow manage to get Ice Flower as a pet 👀.
+:::
+
+|  val   | Name  | Description |
+| ------ | ----- | ----------- |
+| `val1` | melee/HP factor | increases HP and melee ddefens&attack |
+| `val2` | Ranged/Dodge factor | increases dodges, hitrate and ranged defense&attack |
+| `val3` | Magic/MP factor | increases MP and magic defense&attack |
+| `val4` | | some mobs have it, looks like some lvl threshold? |
+| `val5` | | |
+
+:::note
+This is taken into consideration when calculating pets (nosmates/partners) stats. The algorithms are quite large and have different cases for every race, ~~so I'm not gonna put them here now~~ *(I dont have it, [you can help us here](/docs/intro#how-to-contribute))*. 
+
+These factors are like "bonuses". If a pet has 15 melee/HP factor value, it will have much more HP than the same copied mob but with 0 melee/HP factor. Can't be negative
+:::
+
 
 ### EFF
 
