@@ -57,7 +57,7 @@ This file format is simillar to [Item.dat](./Item_dat) (both files can be edit u
 	EXP	{monsterXpBonus}	{monsterJobXpBonus}
 	PREATT	{hostility}	{groupAttack}	{seekRange}	{movementSpeed}	{respTime}
 	SETTING	{iconID}	{spawnMobOrColor}	{amountOrItem}	{spriteSize}	{cellSize}	{unknown0, always 0}
-	ETC	{bitFlags}	{unknown1}	{isPercentileDmg}	{canOnlyBeDmgedByJajamaruLastSkill}	{unknown2, always 0}	{visibleOnMinimapAsGreenDot}	{unknown3}	{isValhallaPartner}
+	ETC	{flags}	{unknown1}	{isPercentileDmg}	{canOnlyBeDmgedByJajamaruLastSkill}	{unknown2, always 0}	{visibleOnMinimapAsGreenDot}	{unknown3}	{isValhallaPartner}
 	PETINFO	{val1}	{val2}	{val3}	{val4}	{val5}
 	EFF	{effIdOnAttack}	{effIdConstantly}	{effIdOnDeath}
 	ZSKILL	{attType}	{range}	{hitChance}	{castTime}	{cooldown}	{dashSpeed}	{unknown4}
@@ -129,31 +129,36 @@ Use that id in `conststring.dat` to get race name (or check the list at the bott
 <details>
   <summary>List of races</summary>
 
-    - 0/0 - low level plants
-    - 0/1 - low level animals
-    - 0/2 - low level monsters
-    - 1/0 - high level plants
-    - 1/1 - high level animals
-    - 1/2 - high level monsters
-    - 2/0 - kovolt
-    - 2/1 - bushtail
-    - 2/2 - catsy
-    - 3/0 - human
-    - 3/2 - neutral
-    - 3/3 - demon
-    - 4/0 - angel
-    - 5/0 - low level undead
-    - 5/1 - high level undead
-    - 6/0 - low level spirit (a5.1 mobs)
-    - 8/0 - fixed trap - these traps on raids that hit you from nowhere, etc.
-    - 8/1 - energy ball - sp3a bombs, mini-clones from hongbi&cheongbi
-    - 8/2 - cannon ball - rainbow battle crystals
-    - 8/3 - talkable npc - like TS sign, ML sign, SP stones
-    - 8/4 - generic, a lot of different ones here
-    - 8/5 - teleporters
-    - 8/6 - quest mob spawner
-    - 8/7 - collectibles (like ice flowers)
-    - 8/8 - a5 quest collectibles (or something, idk)
+  | raceType | raceSubType | Label (from conststring.dat or my description) |
+  |---|---|---|
+  | 0 | 0 | low level plants |
+  | 0 | 0 | low level plants |
+  | 0 | 1 | low level animals |
+  | 0 | 2 | low level monsters |
+  | 1 | 0 | high level plants |
+  | 1 | 1 | high level animals |
+  | 1 | 2 | high level monsters |
+  | 2 | 0 | kovolt |
+  | 2 | 1 | bushtail |
+  | 2 | 2 | catsy |
+  | 3 | 0 | human |
+  | 3 | 2 | neutral |
+  | 3 | 3 | demon |
+  | 4 | 0 | angel |
+  | 5 | 0 | low level undead |
+  | 5 | 1 | high level undead |
+  | 6 | 0 | low level spirit (a5.1 mobs) |
+  | 8 | 0 | fixed trap (these traps on raids that hit you from nowhere, etc.) |
+  | 8 | 1 | energy ball (sp3a bombs, mini-clones from hongbi&cheongbi) |
+  | 8 | 2 | cannon ball (rainbow battle crystals) |
+  | 8 | 3 | talkable npc (like TS sign, ML sign, SP stones) |
+  | 8 | 4 | generic, a lot of different ones here |
+  | 8 | 5 | teleporters |
+  | 8 | 6 | quest mob spawner |
+  | 8 | 7 | collectibles (like ice flowers) |
+  | 8 | 8 | a5 quest collectibles (or something, idk) |
+
+  You can easy search monsters by race there: https://itempicker.atlagaming.eu/monsters
 
 </details>
 
@@ -225,7 +230,8 @@ Is in deciseconds (so value 100 would be 10 seconds)
 
 #### iconID
 
-Is avatar inside `NSipData.NOS` (example: <img src="https://itempicker.atlagaming.eu/api/monsters/icon/1" height="30"></img>)
+Contains monster icon id.
+Icon can be found in `NSipData.NOS` (example: <img src="https://itempicker.atlagaming.eu/api/monsters/icon/1" height="30"></img>)
 
 #### spawnMobOrColor / amountOrItem
 
@@ -286,15 +292,15 @@ Examples:
 ### ETC
 
 ```txt
-	ETC	{bitFlags}	{unknown1}	{isPercentileDmg}	{canOnlyBeDmgedByJajamaruLastSkill}	{unknown2, always 0}	{visibleOnMinimapAsGreenDot}	{unknown3}	{isValhallaPartner}
+	ETC	{flags}	{unknown1}	{isPercentileDmg}	{canOnlyBeDmgedByJajamaruLastSkill}	{unknown2, always 0}	{visibleOnMinimapAsGreenDot}	{unknown3}	{isValhallaPartner}
 ```
 
-#### bitFlags
+#### flags
 
 Flags are stored as an integer and calculated using bitwise operations. If you want to dive deeper into what's happening behind the curtains, check the [Wikipedia](https://en.wikipedia.org/wiki/Bit_field) and [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators) articles on the topic.
 
 <details>
-  <summary>Table with bitFlags documentation</summary>
+  <summary>Table with bitflags documentation</summary>
     
     | option | bitFlags | comment |
     |--|--|--|
