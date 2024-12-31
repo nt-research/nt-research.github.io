@@ -249,42 +249,46 @@ Icon <NtMonsterIcon vnum={81} label="Pink Jelly" height={30} /> can be found in 
 Meaning depends on the hostility value. Check the table below.
 
 <table>
-  <tr>
-    <th>Condition</th>
-    <th>`hostility` value is 0 - 19999</th>
-    <th>`hostility` value is 20000 - ...</th>
-  </tr>
-  <tr>
-    <th>Friendly option name</th>
-    <th>Colors</th>
-    <th>Spawn monsters</th>
-  </tr>
-  <tr>
-    <th>Behaviour</th>
-    <td>
-      * This mob can have a custom color (if `spawnMobOrColor` is not 0)
-      * It's an int representation of the RGBA color (value -12477399 in hex is 0xff419c29, and so the RGBA is #ff419c29 (0xff red, 0x41 green, 0x9c blue, 0x29 alpha))
-      * You can use our [Color calculator](/color-calculator) to get color int value
-    </td>
-    <td>
-      * This mob spawns `amountOrItem` amount of mob (vnum: `spawnMobOrColor`)
-    
-      :::tip
-      Most monsters in this category give the impression that they are used to configure various elements of the game. In fact, they are never visible to the player. They dont have sprites and dont have icon.
-      :::
-    </td>
-  </tr>
-  <tr>
-    <th>Examples</th>
-    <td>
-      * Invisible Jelly ![Invisible Jelly](https://itempicker.atlagaming.eu/api/monsters/icon/168)
-      * Invisible Dust King ![Invisible Dust King](https://itempicker.atlagaming.eu/api/monsters/icon/294)
-      * Angry Chicken ![Angry Chicken](https://itempicker.atlagaming.eu/api/monsters/icon/340)
-    </td>
-    <td>
-     * Laboratory Observer (Vnum: 857) ![Laboratory Observer](https://itempicker.atlagaming.eu/api/monsters/icon/857) spawns 3 Mobs: Gaunt Zombie Guard (Vnum: 299) ![Gaunt Zombie Guard](https://itempicker.atlagaming.eu/api/monsters/icon/299)
-    </td>
-  </tr>
+  <thead>
+    <tr>
+      <th>Condition</th>
+      <th>`hostility` value is 0 - 19999</th>
+      <th>`hostility` value is 20000 - ...</th>
+    </tr>
+    <tr>
+      <th>Friendly option name</th>
+      <th>Colors</th>
+      <th>Spawn monsters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Behaviour</th>
+      <td>
+        * This mob can have a custom color (if `spawnMobOrColor` is not 0)
+        * It's an int representation of the RGBA color (value -12477399 in hex is 0xff419c29, and so the RGBA is #ff419c29 (0xff red, 0x41 green, 0x9c blue, 0x29 alpha))
+        * You can use our [Color calculator](/color-calculator) to get color int value
+      </td>
+      <td>
+        * This mob spawns `amountOrItem` amount of mob (vnum: `spawnMobOrColor`)
+      
+        :::tip
+        Most monsters in this category give the impression that they are used to configure various elements of the game. In fact, they are never visible to the player. They dont have sprites and dont have icon.
+        :::
+      </td>
+    </tr>
+    <tr>
+      <th>Examples</th>
+      <td>
+        * Invisible Jelly ![Invisible Jelly](https://itempicker.atlagaming.eu/api/monsters/icon/168)
+        * Invisible Dust King ![Invisible Dust King](https://itempicker.atlagaming.eu/api/monsters/icon/294)
+        * Angry Chicken ![Angry Chicken](https://itempicker.atlagaming.eu/api/monsters/icon/340)
+      </td>
+      <td>
+      * Laboratory Observer (Vnum: 857) ![Laboratory Observer](https://itempicker.atlagaming.eu/api/monsters/icon/857) spawns 3 Mobs: Gaunt Zombie Guard (Vnum: 299) ![Gaunt Zombie Guard](https://itempicker.atlagaming.eu/api/monsters/icon/299)
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 #### spriteSize
@@ -527,7 +531,7 @@ Mob's weapon. It adds these stats to the mob like it was wearing a weapon with t
 	AINFO	{defType}	{grade}
 ```
 
-Mob's armor. It adds these stats to the mob like it was wearing a armor with these values. (Simillar to [WINFO](./#winfo))
+Mob's armor. It adds these stats to the mob like it was wearing a armor with these values. (Simillar to [WINFO](#winfo))
 
 ### ARMOR
 
@@ -535,7 +539,7 @@ Mob's armor. It adds these stats to the mob like it was wearing a armor with the
 	ARMOR	{lvl}	{meleeDef}	{rangedDef}	{magicDef}	{dodge}
 ```
 
-Mob's armor. It adds these stats to the mob like it was wearing a armor with these values. (Simillar to [WEAPON](./#weapon))
+Mob's armor. It adds these stats to the mob like it was wearing a armor with these values. (Simillar to [WEAPON](#weapon))
 
 ### SKILL
 
