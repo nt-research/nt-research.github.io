@@ -603,8 +603,111 @@ which means: After die use BCard `27	120	0	0	1` (because its 2nd BCard in `CARD`
 	MODE	{BCardVNUM}	{EffectVal_1}	{EffectVal_2}	{BCardSub}	{Target}	[4 times the same thing]	{alwaysActive}	{limiter}	{hpThreshold/itemVnum}	{modeRangeTreshold}	{c_modeVnum}	{cellMinRange}	{midgard}
 ```
 
+Mob can go into different "mode". Only useable if flag `hasMode` is true ([read more about flags here](#flags))
+
+If the `MODE` is active, all 5 BCards are activated
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Bcard (x5)</th>
+      <td>
+        BCard definition `{BCardVNUM}	{EffectVal_1}	{EffectVal_2}	{BCardSub}	{Target}`. [Read more here](./Item_dat#buff)
+      </td>
+    </tr>
+    <tr>
+      <th>`alwaysActive`</th>
+      <td>means that the MODE is enabled by default</td>
+    </tr>
+    <tr>
+      <th>`limiter`</th>
+      <td>
+        
+        #### If `limiter` == 1
+
+        The `MODE` triggers only if the trigger is in `modeRangeTreshold` cells. 
+
+        :::secondary Example
+        For Turtle you have to be in 3 cells range to hide himself
+        :::
+
+        #### If `limiter` == 2
+        
+        To toggle `MODE`, there has to be killed at least `modeRangeTreshold` mobs on the map.
+
+        :::warning Important
+        This check holds after revival (zombie), but only for this mob. This causes the Zombies in official servers to have the `MODE` activated after a maintenance, but once someone kills all mobs on the map, they will never regain their `MODE` until the next maintenance. If someone only kills half of the map, only this half of the map would not have `MODE` anymore. 
+        
+        Also, if someone was to spawn 2nd Ginseng boss in the raid, both would be burried. But if this someone spawned him after people killed all 7 pots, the Ginseng would spawn unburried.
+        :::
+      </td>
+    </tr>
+    <tr>
+      <th>`hpThreshold/itemVnum`</th>
+      <td>
+        #### `alwaysActive` == 0
+
+        This is treated as HP threshold for toggling `MODE`. If the values is `50`, the `MODE` will toggle on 50% HP or less.
+        :::secondary Example
+        Turtle will toggle mode when HP is lower than 30%
+        :::
+
+        #### `alwaysActive` == 1 
+
+        This is item VNUM, but i'm not sure how it works, it's something for a5 quests only
+      </td>
+    </tr>
+    <tr>
+      <th>`modeRangeTreshold`</th>
+      <td>*Read about `limiter` value above*</td>
+    </tr>
+    <tr>
+      <th>`c_modeVnum`</th>
+      <td>MODE's c_mode's... VNUM</td>
+    </tr>
+    <tr>
+      <th>`cellMinRange`</th>
+      <td>
+        It defines minimum range for skills. If the skill range is less than this, this skill can not hit the mob (like warriors can't hit flying fire drakes).
+
+        Used by LoD mobs - dragons.
+      </td>
+    </tr>
+    <tr>
+      <th>`midgard`</th>
+      <td>
+        If not 0, each hit to mob takes 1/`midgard` of maximum mob's HP. 
+        
+        Used by Midgard monsters and Fafnir boss.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+:::secondary Examples
+* Turtle: it can hide inside it's shell if his HP is low
+* Ginseng boss: can be burried untill some mobs are killed in the bossroom
+* Larvas: roll up and speed if their's HP is low
+
+Or just to use c_mode for a mob (some a5 mobs use it)
+:::
+
 ### ITEM
 
 ```txt
 	ITEM	{itemVNUM}	{chance}	{amount}	[19 times the same thing]
 ```
+List of drops from the mob
+
+| Field | Description |
+|-------|-------------|
+| itemVNUM | item Vnum |
+| chance | number bettwen 0 and 100000. (`1000` is 1%, `1` is 0.001%) |
+| amount | item amount |
