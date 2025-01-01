@@ -1,0 +1,236 @@
+---
+sidebar_position: 3
+title: BCard.dat
+description: BCard configuration
+---
+
+# BCard.dat
+
+BCard.dat is pure clientside file. It is not needed on the server, unless as some kind of "helper". This file only carries how should given BCard string be displayed in the client.
+
+## Format
+
+```txt title="BCard.dat"
+#=============================================================
+	VNUM	{BCardVNUM}
+	ICON	{always -1, does't work sadly}
+	NAME	{BCardCategoryCodeName}
+	DESC	{BCardSub1DisplayType}	{BCardSub2DisplayType}	[...]
+	SUBJ1	{BCardSubject1CodeName}
+	SUBJ2	{BCardSubject2CodeName}
+	[...]
+	LIST1-1	{BCardList1-1CodeName}
+	LIST1-2	{BCardList1-2CodeName}
+	LIST2-1	{BCardList2-1CodeName}
+	LIST2-2	{BCardList2-2CodeName}
+	[...]
+	END
+#=============================================================
+```
+There can be different amount of records, so i just used `[...]`. I don't think it's the limit, but currently in the client there is up to 5 records per BCard VNUM.
+
+## What is a BCard?
+
+BCard is an orange effect present in skills, buffs, items, mobs and more.
+Each BCard VNUM is like a category. Let's look at an example:
+```txt title="BCard.dat"
+	VNUM	19
+	ICON	-1
+	NAME	Move
+	DESC	0	1	1	1	0
+	SUBJ1	Interrupts movement
+	SUBJ2	Changes movement speed.
+	SUBJ3	zts946e
+	SUBJ4	Increases/decreases movement speed.
+	SUBJ5	zts650e
+	LIST1-1	Movement impossible
+	LIST1-2	Movement impossible
+	LIST2-1	Movement speed is increased by %s%%.
+	LIST2-2	Movement speed is decreased by %s%%.
+	LIST3-1	Your movement speed is increased by %s while you are hidden.
+	LIST3-2	Your movement speed is decreased by %s while you are hidden.
+	LIST4-1	Movement speed is increased by %s.
+	LIST4-2	Movement speed is decreased by %s.
+	LIST5-1	Your speed is temporarily maximised.
+	LIST5-2	Your speed is temporarily maximised.
+	END
+```
+:::note
+To make example more clear I replaced all `zts...` with actual translations
+:::
+
+Every BCard with `VNUM` (`BCardVNUM`) 19 will be related to movement speed.
+
+`SUBJX` `BCardSubjectXCodeName` is useless for the client. It only helps programmers while creating/using BCards I guess?
+
+## How typical BCard structure works?
+
+BCards are used inside Item.data, Skill.dat, monster.dat etc. Below you can see typical structure for one BCard:
+```
+{BCardVNUM}	{EffectVal_1}	{EffectVal_2}	{BCardSub}	{Target}
+```
+That mean:
+| Field | Description |
+| ----- | ----------- |
+| `BCardVNUM` | Bcard VNUM |
+| `EffectVal_1` | EffectVal_1's sign (positive/negative) defines which Y to use (negative values will result in displaying `LIST{X}-2`, while positive will result in `LIST{X}-1`) [Read more](#desc) |
+| `EffectVal_2` | A value whose meaning varies according to `DESC` [Read more](#desc) |
+| `BCardSub` | Defines which X from `LIST{X}-{Y}` use (note that `BCardSub` starts from 0, while in LIST it starts from 1, so you have to add 1) |
+| `Target` | |
+
+## `DESC`
+
+Defines how should variables be put inside the string.
+
+<table>
+  <thead>
+    <tr>
+      <th>`DESC` value</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>No variables inserted</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>
+          One (first) variable used as a number, so the first `%s` will be replaced to `abs(floor({EffectVal_1}/4))`.
+      </td>
+      <td>🔢</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>
+        Two variables (both) are used as numbers.
+        * First `%s` will be `abs(floor({EffectVal_1}/4))`
+        * Second `%s` will be `abs(floor({EffectVal_2}/4))`
+      </td>
+      <td>🔢🔢</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>
+        * First variable is number (`abs(floor({EffectVal_1}/4))`).
+        * Second is Mob's VNUM and it will get this mob's name to display instead of a number.
+        
+        :::warning
+          if BCard VNUM is equal to 46, both variables should be treated as mobs (this in the only exception)
+        :::
+      </td>
+      <td>🔢🐮</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>
+        * First variable is a number (`abs(floor({EffectVal_1}/4))`).
+        * Second variable is treated as buff's VNUM and it will get this buff's name to display instead of a number.
+      </td>
+      <td>🔢✨</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>
+        * First variable is treated as race's ID and it will get this race's name to display instead of a number
+        * Second variable is a number (`abs(floor({EffectVal_2}/4))`).
+      </td>
+      <td>🧝🔢</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>
+        * First variable is a number (`abs(floor({EffectVal_1}/4))`).
+        * Second variable is treated as skill's VNUM and it will get this skill's name to display instead of a number.
+      </td>
+      <td>🔢💪</td>
+    </tr>
+  </tbody>
+</table>
+
+:::tip
+`%%` is just "%" escaped.
+
+That mean `Reduces remaining HP by %s%%.` will be `Reduces remaining HP by 20%.`
+:::
+
+## Example
+
+:::secondary Example
+
+Feelers (Vnum: 218) <NtItemIcon vnum={218} label="Feelers" />
+```txt title=Item.dat
+[...]
+	BUFF	24	48	280	0	0	0	[...]
+[...]
+```
+That mean:
+
+<table>
+  <thead>
+    <tr>
+      <th>buff field name</th>
+      <th>value</th>
+      <th>Note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>BCardVNUM</th><td>24</td>
+      <td>
+        1. Check VNUM `24` in `BCard.dat`
+        2. Find 
+      </td>
+    </tr>
+    <tr>
+      <th>EffectVal_1</th><td>48</td>
+      <td>Is </td>
+    </tr>
+    <tr>
+      <th>EffectVal_2</th><td>280</td> 
+      <td>48</td>
+    </tr>
+    <tr>
+      <th>BCardSub</th><td>0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Target</th><td>0</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+1. Check VNUM `24` in `BCard.dat`
+
+2. Calculate `X` in `LIST{X}-{Y}`
+
+    `X = BCardSub + 1`
+
+3. Calculate `Y` in `LIST{X}-{Y}`
+    ```python
+    if buff.EffectVal_1 > 0:
+      Y = 1
+    else:
+      Y = 2
+    ```
+
+4. Get correct `zts...`
+
+    In our case its `LIST1-1` and `zts318e` (`Increases damage against %s by %s.`)
+
+5. Check `DESC`
+
+    In our case `X = 1` soo we need to read first variable in `DESC`. In our case it `5` which mean race + number
+
+6. Replace `%s`
+
+    * replace first `%s` with race name
+    * replace second `%s` with number (`abs(floor({EffectVal_2}/4))`)
+
+    In our case `Increases damage against High-level monster by 70.`
+
+:::

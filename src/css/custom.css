@@ -69,6 +69,11 @@ body::before {
   z-index: -1;
 }
 
+/* dont add padding for last p in tables */
+table td *:last-child, table th *:last-child {
+  margin-bottom: 0;
+}
+
 /* Better checkboxes */
 input[type=checkbox] {
   margin: 0;
