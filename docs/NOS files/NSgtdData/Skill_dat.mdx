@@ -1,0 +1,353 @@
+---
+sidebar_position: 3
+title: Skill.dat
+description: Skills configuration
+---
+
+# Skill.dat
+
+This file contains the configuration for all skills in the game. Each skill entry defines its properties, effects, requirements, and behavior.
+
+## Example
+
+```txt title="Skill.dat"
+#=========================================================
+	VNUM	1
+	NAME	zts3e
+	TYPE	1	1	0	0	0	0
+	COST	0	0	0
+	LEVEL	0	0	0	0	0
+	EFFECT	0	0	0	0	0	0	0	0	0
+	TARGET	0	0	0	0	0
+	DATA	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	BASIC	0	0	0	0	0	0
+	BASIC	1	0	0	0	0	0
+	BASIC	2	0	0	0	0	0
+	BASIC	3	0	0	0	0	0
+	BASIC	4	0	0	0	0	0
+	FCOMBO	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	CELL	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+	Z_DESC	1
+zts4e
+#=========================================================
+```
+
+## Notes
+
+- Between each skill configuration there is a `#===...` separator.
+- This file never uses spaces, **only tabs**.
+- If you specify a wrong zts value (translation), it will display that zts value (for example `zts3e`) in game.
+- One skill can have more than one zts description line.
+
+## Format
+
+```txt title="Skill.dat"
+#=========================================================
+	VNUM	{SkillVnum}
+	NAME	{SkillCodeName}
+	TYPE	{SkillType}	{CastId}	{Class}	{AttackType}	{SecondaryWeapon}	{Element}
+	COST	{CPCost}	{GoldCost}	{SpecialCost}
+	LEVEL	{JobLevel}	{AdventurerLevel}	{SwordsmanLevel}	{ArcherLevel}	{MageLevel}
+	EFFECT	{SkillIconImg}	{CastEffect}	{CastAnimation}	{Effect}	{AttackAnimation}	0	0	0	0
+	TARGET	{TargetType}	{HitType}	{Range}	{TargetRange}	{TargetGroup}
+	DATA	{UpgradeSkill}	{UpgradeType}	0	0	{CastTime}	{Cooldown}	0	0	{MpCost}	{DashSpeed}	{ItemVNum}	{Range}	{TargetRange}	0	0
+	BASIC	0	{BCardVNUM}	{BCardSub}	{EffectVal_1}	{EffectVal_2}	{Target}
+	BASIC	1	{BCardVNUM}	{BCardSub}	{EffectVal_1}	{EffectVal_2}	{Target}
+	BASIC	2	{BCardVNUM}	{BCardSub}	{EffectVal_1}	{EffectVal_2}	{Target}
+	BASIC	3	{BCardVNUM}	{BCardSub}	{EffectVal_1}	{EffectVal_2}	{Target}
+	BASIC	4	{BCardVNUM}	{BCardSub}	{EffectVal_1}	{EffectVal_2}	{Target}
+	FCOMBO	{IsCombo}	{FirstActivationHit}	{FirstComboAttackAnimation}	{FirstComboEffect}	{SecondActivationHit}	{SecondComboAttackAnimation}	{SecondComboEffect}	{ThirdActivationHit}	{ThirdComboAttackAnimation}	{ThirdComboEffect}	{FourthActivationHit}	{FourthComboAttackAnimation}	{FourthComboEffect}	{FifthActivationHit}	{FifthComboAttackAnimation}	{FifthComboEffect}
+	CELL	{unk1}	{unk2}	[{xOffset}	{yOffset}	{isOn}]x20	{Reverse}
+	Z_DESC	{ingameDescLinesCount}
+{descriptionCodeName}
+{descriptionCodeName2}
+[...]
+#=========================================================
+```
+
+:::warning
+
+It's important to remember that **values are separated by tabs, not spaces.**
+
+_Visual Studio Code_ replaces tabs with spaces by default.
+That's why it's recommended to use _Notepad++_ or other text editor that will not replace tabs with spaces.
+
+:::
+
+### `NAME` and `Z_DESC`
+
+- `{SkillCodeName}` and `{descriptionCodeName}` contain the key for translation.
+  For example `zts3e` is a key for translation.
+- Translations can be found in `_code_<lang>_<filetype>.txt` files (for example `_code_en_Skill.txt`).
+- If you specify a wrong zts value (translation), it will display that zts value
+  (for example `zts3e`) in game.
+- Similar to [Item.dat Name](./Item_dat#name-and-linedesc)
+
+### `TYPE`
+
+```txt
+	TYPE	{SkillType}	{CastId}	{Class}	{AttackType}	{SecondaryWeapon}	{Element}
+```
+
+#### `SkillType`
+
+| Value | Description |
+|-------|-------------|
+| 0 | Passive |
+| 1 | Normal player skill |
+| 2 | Skill upgrade |
+| 3 | Action/emote |
+| 4 | Monster skill |
+| 5 | Partner skill |
+
+#### `CastId`
+
+Used in packets like `u_s` and specifies the order in which skills are displayed in the skill list.
+
+#### `Class`
+
+Class ID to which this skill belongs.
+
+| Value | Description |
+|-------|-------------|
+| 0 | Adventurer |
+| 1 | Swordsman |
+| 2 | Archer |
+| 3 | Mage |
+| 4 | Martial Artist |
+| 28 | PSP attacking skills |
+| 29 | PSP buffs |
+| 30 | Nosmates skills |
+| 31 | Monster skills |
+| 32 | Pajama |
+| 33 | Ranger |
+| ... | ... |
+| 62 | Wedding SP |
+| 63 | SP3 Martial Artist |
+
+#### `AttackType`
+
+| Value | Description |
+|-------|-------------|
+| 0 | Melee |
+| 1 | Ranged |
+| 2 | Magic |
+| 3 | Other - for pajama's basic attack and Chicken's basic & skill |
+| 4 | Charge - no-sp skills that charge the damage to the next attack. Not to be confused with for example SP2Archer's charge. To be more technical and specific, this skill's BCards are added to the next skill used |
+| 5 | Dash - all skills that use dashes/charges etc. to move player's position |
+
+#### `SecondaryWeapon`
+
+Boolean value. If true, then skill uses the secondary weapon.
+
+#### `Element`
+
+Elemental attribute of the skill.
+
+### `COST`
+
+```txt
+	COST	{CPCost}	{GoldCost}	{SpecialCost}
+```
+
+#### `CPCost`
+
+Cost in CP (Combat Points). If set to `-1`, it becomes `0`.
+
+#### `GoldCost`
+
+Cost in gold to learn the skill.
+
+#### `SpecialCost`
+
+Unknown value, but if it's equal to `999`, the skill is a combo skill. Values like `150000`, `70000`, `20000` etc. can be found in [Advanced] passives and skill upgrades.
+
+### `LEVEL`
+
+```txt
+	LEVEL	{JobLevel}	{AdventurerLevel}	{SwordsmanLevel}	{ArcherLevel}	{MageLevel}
+```
+
+If everything is equal to `0` - no level restrictions. Uses adventurer's value if there is one and specific class' is equal to `0`.
+
+- If a level value is `-1`, it becomes `0` (no restriction).
+
+### `EFFECT`
+
+```txt
+	EFFECT	{SkillIconImg}	{CastEffect}	{CastAnimation}	{Effect}	{AttackAnimation}	0	0	0	0
+```
+
+#### `SkillIconImg`
+
+ID of the skill icon image.
+
+#### `CastEffect`
+
+Effect ID shown during casting.
+
+#### `CastAnimation`
+
+Animation ID during casting.
+
+#### `Effect`
+
+Effect ID shown on success.
+
+#### `AttackAnimation`
+
+Animation ID for the attack.
+
+### `TARGET`
+
+```txt
+	TARGET	{TargetType}	{HitType}	{Range}	{TargetRange}	{TargetGroup}
+```
+
+#### `TargetType`
+
+| Value | Description |
+|-------|-------------|
+| 0 | Choice - e.g. basic attack |
+| 1 | None (self) - e.g. mage's regeneration aura |
+| 2 | None (self) or choice - e.g. holy's heal |
+| 3 | Non-target - e.g. scout's teleport |
+
+#### `HitType`
+
+Which entities are targeted.
+
+| Value | Description |
+|-------|-------------|
+| 0 | Choice only, single target |
+| 1 | Enemies in affected AoE |
+| 2 | Allies in affected AoE |
+| 3 | Special area - CELL |
+| 4 | Player and his NosMates - only 5 skills have this |
+
+#### `Range`
+
+If `0`, it's around the player.
+
+#### `TargetRange`
+
+Area of effect range.
+
+#### `TargetGroup`
+
+Affected entities.
+
+| Value | Description |
+|-------|-------------|
+| 0 | Enemies |
+| 1 | Debuff for enemies (no damage, only debuff) |
+| 2 | Buff for allies (no damage, only buff) |
+| 3 | None - pajama skills and wedding SP, because they don't use `su`, but send `cancel` and use some `guri` instead |
+
+### `DATA`
+
+```txt
+	DATA	{UpgradeSkill}	{UpgradeType}	0	0	{CastTime}	{Cooldown}	0	0	{MpCost}	{DashSpeed}	{ItemVNum}	{Range}	{TargetRange}	0	0
+```
+
+#### `UpgradeSkill`
+
+If `SkillType` == 2 (upgrade) - upgrade skill parent VNUM.
+
+#### `UpgradeType`
+
+Upgrade type identifier.
+
+#### `CastTime`
+
+Casting time in deciseconds (so value `100` would be 10 seconds).
+
+#### `Cooldown`
+
+Cooldown time in deciseconds.
+
+#### `MpCost`
+
+Mana Points cost to use the skill.
+
+#### `DashSpeed`
+
+Movement speed of the dash.
+
+#### `ItemVNum`
+
+If not `0`, VNUM of an item needed to use this skill (archer's poisons).
+
+### `BASIC`
+
+```txt
+	BASIC	{Index}	{BCardVNUM}	{BCardSub}	{EffectVal_1}	{EffectVal_2}	{Target}
+```
+
+See definition in [Item.dat](./Item_dat#buff).
+
+The only difference is `{Target}` which is a bit different:
+
+| Value | Description |
+|-------|-------------|
+| 0 | Self - BCards with this will be added to caster's stats before the attack so that they work during the attack. And then removed after. All normal stuff like "Melee damage increased by x" or "Crit damage incr. by x%" |
+| 1 | I think it is bonuses that also add before the attack and other calculations (so if a debuff is inflicted with this `1`, the attack have to take this debuff to calculations) |
+| 2 | No idea, but it targets the caster, like 0 and 1 |
+| 3 | All Targets - basically this BCard triggers on all targets after the attack |
+| 4 | No idea, but about 90% of "Decreases target's HP by x%" have it, alongside with a bunch of other normal enemy-related BCards, like "x% chance to inflict x debuff" |
+
+### `FCOMBO`
+
+```txt
+	FCOMBO	{IsCombo}	{FirstActivationHit}	{FirstComboAttackAnimation}	{FirstComboEffect}	{SecondActivationHit}	{SecondComboAttackAnimation}	{SecondComboEffect}	{ThirdActivationHit}	{ThirdComboAttackAnimation}	{ThirdComboEffect}	{FourthActivationHit}	{FourthComboAttackAnimation}	{FourthComboEffect}	{FifthActivationHit}	{FifthComboAttackAnimation}	{FifthComboEffect}
+```
+
+#### `IsCombo`
+
+If true, enables the "animation combos". Each consecutive attack deals more damage.
+
+#### Combo Slots
+
+There are 5 "slots" for the fcombos:
+- 1st one deals 100% damage
+- 2nd - 105% damage  
+- 3rd - 115% damage
+- 4th and 5th are unknown because never used on official
+
+The damage bonus is added to base attack damage (e.g. melee).
+
+Each slot contains:
+- `{___ActivationHit}` - number of consecutive hits that triggers this animation
+- `{___ComboAttackAnimation}` - animation ID
+- `{___ComboEffect}` - animation VFX
+
+### `CELL`
+
+```txt
+	CELL	{unk1}	{unk2}	[{xOffset}	{yOffset}	{isOn}]x20	{Reverse}
+```
+
+20 times `[{xOffset} {yOffset} {isOn}]`, it's like a list of points (cells) for Special Area skills. The offsets are relative to your character or the target (depends on `{Reverse}`). If you need more info about it - you will have to figure it out yourself.
+
+## Common Issues
+
+### Game Crashes
+
+Make sure format is correct:
+
+- Are you using tabs instead of spaces?
+- Is there a `#===...` separator between each skill configuration?
+- Are the values in the correct order?
+- Are the values in correct range?
+- Do you have the correct amount of parameters in each line?
+
+### How to Change Skill Icon?
+
+`SkillIconImg` is located in `EFFECT` row. You need to change it to the correct icon id. If icon does not exist it will default to question mark icon.
+
+New icons can be added to the `NSipData.NOS` file. The file name is the icon id.
+
+## Sources
+
+- [NosCore.Parser/Parsers/SkillParser.cs](https://github.com/NosCoreIO/NosCore/blob/master/src/NosCore.Parser/Parsers/SkillParser.cs)
+- [OpenNos.Import.Console/ImportFactory.cs](https://github.com/OpenNos/OpenNos/blob/master/OpenNos.Import.Console/ImportFactory.cs) (old source code)
