@@ -32,6 +32,10 @@ zts4e
 #=========================================================
 ```
 
+:::warning TODO
+Add more complex example
+::: 
+
 ## Notes
 
 - Between each skill configuration there is a `#===...` separator.
@@ -48,9 +52,9 @@ zts4e
 	TYPE	{SkillType}	{CastId}	{Class}	{AttackType}	{SecondaryWeapon}	{Element}
 	COST	{CPCost}	{GoldCost}	{SpecialCost}
 	LEVEL	{JobLevel}	{AdventurerLevel}	{SwordsmanLevel}	{ArcherLevel}	{MageLevel}
-	EFFECT	{SkillIconImg}	{CastEffect}	{CastAnimation}	{Effect}	{AttackAnimation}	0	0	0	0
+	EFFECT	{SkillIconImg}	{ctEff}	{ctAnim}	{suEff}	{suAnim}	0	0	0	0
 	TARGET	{TargetType}	{HitType}	{Range}	{TargetRange}	{TargetGroup}
-	DATA	{UpgradeSkill}	{UpgradeType}	0	0	{CastTime}	{Cooldown}	0	0	{MpCost}	{DashSpeed}	{ItemVNum}	{Range}	{TargetRange}	0	0
+	DATA	{UpgradeSkill}	{SP/PSP}	0	0	{CastTime}	{Cooldown}	0	0	{MpCost}	{DashSpeed}	{ItemVNum}	{Range}	{TargetRange}	0	0
 	BASIC	0	{BCardVNUM}	{BCardSub}	{EffectVal_1}	{EffectVal_2}	{Target}
 	BASIC	1	{BCardVNUM}	{BCardSub}	{EffectVal_1}	{EffectVal_2}	{Target}
 	BASIC	2	{BCardVNUM}	{BCardSub}	{EffectVal_1}	{EffectVal_2}	{Target}
@@ -59,8 +63,8 @@ zts4e
 	FCOMBO	{IsCombo}	{FirstActivationHit}	{FirstComboAttackAnimation}	{FirstComboEffect}	{SecondActivationHit}	{SecondComboAttackAnimation}	{SecondComboEffect}	{ThirdActivationHit}	{ThirdComboAttackAnimation}	{ThirdComboEffect}	{FourthActivationHit}	{FourthComboAttackAnimation}	{FourthComboEffect}	{FifthActivationHit}	{FifthComboAttackAnimation}	{FifthComboEffect}
 	CELL	{unk1}	{unk2}	[{xOffset}	{yOffset}	{isOn}]x20	{Reverse}
 	Z_DESC	{ingameDescLinesCount}
-{descriptionCodeName}
-{descriptionCodeName2}
+{DescriptionCodeName}
+{DescriptionCodeName2}
 [...]
 #=========================================================
 ```
@@ -76,7 +80,7 @@ That's why it's recommended to use _Notepad++_ or other text editor that will no
 
 ### `NAME` and `Z_DESC`
 
-- `{SkillCodeName}` and `{descriptionCodeName}` contain the key for translation.
+- `{SkillCodeName}` and `{DescriptionCodeName}` contain the key for translation.
   For example `zts3e` is a key for translation.
 - Translations can be found in `_code_<lang>_<filetype>.txt` files (for example `_code_en_Skill.txt`).
 - If you specify a wrong zts value (translation), it will display that zts value
@@ -138,11 +142,19 @@ Class ID to which this skill belongs.
 
 #### `SecondaryWeapon`
 
-Boolean value. If true, then skill uses the secondary weapon.
+Boolean value. If true (`1`), then skill uses the secondary weapon.
 
 #### `Element`
 
 Elemental attribute of the skill.
+
+| Value | Element |
+|-------|---------|
+| 0 | ![No element](/nt/element/0.png) No element |
+| 1 | ![Fire](/nt/element/1.png) Fire |
+| 2 | ![Water](/nt/element/2.png) Water |
+| 3 | ![Light](/nt/element/3.png) Light |
+| 4 | ![Dark](/nt/element/4.png) Dark |
 
 ### `COST`
 
@@ -152,7 +164,9 @@ Elemental attribute of the skill.
 
 #### `CPCost`
 
-Cost in CP (Combat Points). If set to `-1`, it becomes `0`.
+Cost in CP (Combat Points). 
+
+*In OpenNos if set to `-1`, it becomes `0`.*
 
 #### `GoldCost`
 
@@ -170,33 +184,19 @@ Unknown value, but if it's equal to `999`, the skill is a combo skill. Values li
 
 If everything is equal to `0` - no level restrictions. Uses adventurer's value if there is one and specific class' is equal to `0`.
 
-- If a level value is `-1`, it becomes `0` (no restriction).
-
 ### `EFFECT`
 
 ```txt
-	EFFECT	{SkillIconImg}	{CastEffect}	{CastAnimation}	{Effect}	{AttackAnimation}	0	0	0	0
+	EFFECT	{SkillIconImg}	{ctEff}	{ctAnim}	{suEff}	{suAnim}	0	0	0	0
 ```
 
 #### `SkillIconImg`
 
 ID of the skill icon image.
 
-#### `CastEffect`
-
-Effect ID shown during casting.
-
-#### `CastAnimation`
-
-Animation ID during casting.
-
-#### `Effect`
-
-Effect ID shown on success.
-
-#### `AttackAnimation`
-
-Animation ID for the attack.
+:::warning TODO
+Document missing properties: `ctEff` `ctAnim` `suEff` `suAnim`
+::: 
 
 ### `TARGET`
 
@@ -233,6 +233,11 @@ If `0`, it's around the player.
 
 Area of effect range.
 
+:::warning
+TargetRange could be AoERange??
+need to verify
+:::
+
 #### `TargetGroup`
 
 Affected entities.
@@ -247,16 +252,17 @@ Affected entities.
 ### `DATA`
 
 ```txt
-	DATA	{UpgradeSkill}	{UpgradeType}	0	0	{CastTime}	{Cooldown}	0	0	{MpCost}	{DashSpeed}	{ItemVNum}	{Range}	{TargetRange}	0	0
+	DATA	{UpgradeSkill}	{SP/PSP}	0	0	{CastTime}	{Cooldown}	0	0	{MpCost}	{DashSpeed}	{RequiredItemVNum}	{Range}	{TargetRange}	0	0
 ```
 
 #### `UpgradeSkill`
 
 If `SkillType` == 2 (upgrade) - upgrade skill parent VNUM.
 
-#### `UpgradeType`
+#### `SP/PSP`
 
-Upgrade type identifier.
+if `SkillType` == 1 -> SP ID
+if `SkillType` == 5 -> PSP ID
 
 #### `CastTime`
 
@@ -264,7 +270,7 @@ Casting time in deciseconds (so value `100` would be 10 seconds).
 
 #### `Cooldown`
 
-Cooldown time in deciseconds.
+Cooldown time in deciseconds (so value `3` would be 0.3 seconds).
 
 #### `MpCost`
 
@@ -274,9 +280,22 @@ Mana Points cost to use the skill.
 
 Movement speed of the dash.
 
-#### `ItemVNum`
+#### `RequiredItemVNum`
 
-If not `0`, VNUM of an item needed to use this skill (archer's poisons).
+If not `0` its a VNUM of an item required to use this skill (archer's poisons).
+
+#### `Range`
+
+Range of the skill.
+
+#### `TargetRange`
+
+Target range of the skill. 
+
+:::warning
+TargetRange could be AoERange??
+need to verify
+:::
 
 ### `BASIC`
 
@@ -295,6 +314,15 @@ The only difference is `{Target}` which is a bit different:
 | 2 | No idea, but it targets the caster, like 0 and 1 |
 | 3 | All Targets - basically this BCard triggers on all targets after the attack |
 | 4 | No idea, but about 90% of "Decreases target's HP by x%" have it, alongside with a bunch of other normal enemy-related BCards, like "x% chance to inflict x debuff" |
+
+The Opennos parser processes BCards with the following logic:
+- If `BCardVNUM` is 0 or 255, the BCard is skipped
+- `SubType` is calculated as: `((BCardSub + 1) * 10 + 1 + (EffectVal_1 < 0 ? 1 : 0))`
+- `IsLevelScaled` is true if `EffectVal_1 >= 0` and `EffectVal_1 % 4 != 0`
+- `IsLevelDivided` is true if `EffectVal_1 >= 0` and `EffectVal_1 % 4 == 2`
+- `FirstData` is `EffectVal_1` if positive, otherwise `-EffectVal_1 / 4`
+- `SecondData` is `EffectVal_2 / 4` if positive, otherwise `-EffectVal_2 / 4`
+- `ThirdData` is `Target / 4` if positive, otherwise `-Target / 4`
 
 ### `FCOMBO`
 
@@ -328,6 +356,22 @@ Each slot contains:
 ```
 
 20 times `[{xOffset} {yOffset} {isOn}]`, it's like a list of points (cells) for Special Area skills. The offsets are relative to your character or the target (depends on `{Reverse}`). If you need more info about it - you will have to figure it out yourself.
+
+#### `unk1`, `unk2`
+
+Unknown field. Purpose not documented.
+
+#### `xOffset yOffset isOn` (20 instances)
+
+There are 20 instances of this field.
+
+* `xOffset` - X coordinate offset for each cell position.
+* `yOffset` - Y coordinate offset for each cell position.
+* `isOn` - Boolean value indicating if this cell position is active.
+
+#### `Reverse`
+
+Boolean value determining if offsets are relative to the character (false) or target (true).
 
 ## Common Issues
 
