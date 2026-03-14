@@ -38,10 +38,16 @@ c_mode 1 <character_id> <morph_id> 0 0 0 100 0
 c_mode 1 42067 16 0 0 0 100 0
 ```
 
-## How to get Morph Icon Id?
+## How Icon IDs work
 
-1. Find you Specialist Card item Vnum in `Item.dat`.
-2. Then read `DATA` row and find 13th value. That will be your Morph Icon Id.
+![Ui element portrait](/assets/morph/ui.png)
+
+Icon IDs for the portrait (top-left corner) are derived from item **VisualChangeId** and **class**. The 6th value in the item's `INDEX` row in `Item.dat` is the **VisualChangeId** value used in these formulas. (See [Item.dat](../NOS%20files/NSgtdData/Item_dat) for more information.)
+
+### Specialist Card (SP) icon — character
+
+- **Male:** `32500 + (VisualChangeId - 1) * 2`
+- **Female:** `32500 + (VisualChangeId - 1) * 2 + 1`
 
 :::info Example
 
@@ -50,36 +56,53 @@ Pirate Specialist Card (Vnum: 4099) <NtItemIcon vnum={4099} label="Pirate Specia
 ```txt title="Item.dat"
 	VNUM	4099	0
 ...
-	DATA	1	0	0	0	0	0	0	0	0	0	1	0	15	0	0	0	0	0	10	4
+	INDEX	4	4	0	12	915	16
 ...
 ```
-13th value in `DATA` row is `15`. That is your Morph ID.
+6th value in `INDEX` is **VisualChangeId** = `16`. Icon IDs: male = `32528`, female = `32529`.
 
-Now you need to unpack `NSipData.NOS`
-
-```txt title="Formula"
-MaleIconId = 32500 + 2 * Morph_ID
-FemaleIconId = 32500 + 2 * Morph_ID + 1
-```
-
-In this example it will be: `32530` for male and `32531` for female.
+![Pirate SP Male](https://itempicker.atlagaming.eu/api/morph/icon?gender=male&itemVnum=4099)
+![Pirate SP Female](https://itempicker.atlagaming.eu/api/morph/icon?gender=female&itemVnum=4099)
 :::
 
-### How to get Morph Icon Id for classes?
+### Class icon (no SP equipped)
+
+- **Male:** `32000 + classId * 40`
+- **Female:** `32000 + classId * 40 + 20`
 
 | classId | Class Name | Male Icon | Female Icon |
 | --- | --- | --- | --- |
-| 0 | Adventurer | ![](https://nosapki.com/images/icons/32000.png) | ![](https://nosapki.com/images/icons/32020.png) |
-| 1 | Swordsman | ![](https://nosapki.com/images/icons/32040.png) | ![](https://nosapki.com/images/icons/32060.png) |
-| 2 | Archer | ![](https://nosapki.com/images/icons/32080.png) | ![](https://nosapki.com/images/icons/32100.png) |
-| 3 | Mage | ![](https://nosapki.com/images/icons/32120.png) | ![](https://nosapki.com/images/icons/32140.png) |
-| 4 | Martial Artist | ![](https://nosapki.com/images/icons/32160.png) | ![](https://nosapki.com/images/icons/32180.png) |
+| 0 | Adventurer | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=male&classId=0) | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=female&classId=0) |
+| 1 | Swordsman | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=male&classId=1) | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=female&classId=1) |
+| 2 | Archer | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=male&classId=2) | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=female&classId=2) |
+| 3 | Mage | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=male&classId=3) | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=female&classId=3) |
+| 4 | Martial Artist | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=male&classId=4) | ![](https://itempicker.atlagaming.eu/api/morph/icon?gender=female&classId=4) |
 
-```txt title="Formula"
-MaleIconId = 32000 + classId * 40
-FemaleIconId = 32000 + classId * 40 + 20
+### Partner Specialist Card icon
+
+```txt title="Formula (Partner Specialist Card icon)"
+25000 + VisualChangeId
 ```
 
-### How to get Monster Icon Id?
+![Maru Partner SP](https://itempicker.atlagaming.eu/api/morph/icon?itemVnum=4808)
 
-Is calculated diffrent way. Read more in [monster.dat](../NOS%20files/NSgtdData/monster_dat#iconid) file.
+
+### Monster icon
+
+Monster icon is calculated differently. See [monster.dat](../NOS%20files/NSgtdData/monster_dat#iconid) (iconId section).
+
+## Code snippets
+
+```ts
+function getClassIconId(classId: number, gender: "male" | "female") {
+  return 32000 + classId * 40 + (gender === "female" ? 20 : 0);
+}
+
+function getSpIconId(item: Item, gender: "male" | "female") {
+  return (item.design - 1) * 2 + 32500 + (gender === "female" ? 1 : 0);
+}
+
+function getPartnerSpIconId(item: Item) {
+  return item.design + 25000;
+}
+```
