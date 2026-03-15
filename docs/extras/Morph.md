@@ -17,7 +17,7 @@ As a result, the game engine receives an instruction to replace the hero's stand
 | --- | --- |
 | ![Morph 0](/assets/morph/morph_0.png) `$morph 0` | By default you are using Morph 0. That will load sprite based on you class |
 | ![Morph 20](/assets/morph/morph_20.png) `$morph 20` | When you equip a Specialist Card your Morph is changed |
-| ![Morph 1000](/assets/morph/morph_1000.png) `$morph 1000` | That can be used to change your appearance to Monsters too. For monsters `morph_id = 999 + monster_vnum`. Fox have `monster_vnum = 0` |
+| ![Morph 1000](/assets/morph/morph_1000.png) `$morph 1001` | That can be used to change your appearance to Monsters too. |
 
 
 ## How to change Morph?
